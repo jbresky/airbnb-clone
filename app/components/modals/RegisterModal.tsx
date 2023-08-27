@@ -9,16 +9,18 @@ import {
     useForm
 } from 'react-hook-form';
 
-import useRegisterModal from "../hooks/useRegisterModal";
+import useRegisterModal from "../../hooks/useRegisterModal";
 import { useState } from "react";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/input";
 import { toast } from 'react-hot-toast';
 import Button from "../Button";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -40,10 +42,12 @@ const RegisterModal = () => {
 
         axios.post('/api/register', data)
             .then(() => {
+                toast.success('Registered!')
                 registerModal.onClose();
+                loginModal.onOpen();
             })
             .catch(error => {
-                toast.error('Something went wrong');
+                toast.error(error);
             })
             .finally(() => {
                 setIsLoading(false);
