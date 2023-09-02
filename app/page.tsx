@@ -34,7 +34,6 @@ export default async function Home() {
         ">
           {listings.map((listing: any) => {
             return (
-              // <div>{listing.title}</div>
               <ListingCard
               key={listing.id}
               data={listing}
