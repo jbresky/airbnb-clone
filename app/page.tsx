@@ -1,17 +1,23 @@
+import getCurrentUser from "./actions/getCurrentUser";
+import getListings from "./actions/getListings";
 import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
+import ListingCard from "./components/listings/ListingCard";
 
-export default function Home() {
-  const isEmpty = true;
+export default async function Home() {
 
-  if(isEmpty) {
+  const currentUser = await getCurrentUser();
+  const listings = await getListings();
+  
+  if (listings.length === 0) {
     return (
       <ClientOnly>
-        <EmptyState/>
+        <EmptyState showReset />
       </ClientOnly>
     )
   }
+
   return (
     <ClientOnly>
       <Container>
@@ -26,7 +32,16 @@ export default function Home() {
           2xl:grid-cols-6
           gap-8
         ">
-          <div>My listing</div>
+          {listings.map((listing: any) => {
+            return (
+              // <div>{listing.title}</div>
+              <ListingCard
+              key={listing.id}
+              data={listing}
+              currentUser={currentUser}
+              />
+            )
+          })}
         </div>
       </Container>
     </ClientOnly>
