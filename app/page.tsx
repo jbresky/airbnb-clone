@@ -1,14 +1,18 @@
 import getCurrentUser from "./actions/getCurrentUser";
-import getListings from "./actions/getListings";
+import getListings, { IListingsParams } from "./actions/getListings";
 import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: IListingsParams
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
 
   const currentUser = await getCurrentUser();
-  const listings = await getListings();
+  const listings = await getListings(searchParams);
   
   if (listings.length === 0) {
     return (
@@ -32,17 +36,17 @@ export default async function Home() {
           2xl:grid-cols-6
           gap-8
         ">
-          {listings.map((listing: any) => {
-            return (
+          {listings.map((listing: any) => (
               <ListingCard
               key={listing.id}
               data={listing}
               currentUser={currentUser}
               />
-            )
-          })}
+          ))}
         </div>
       </Container>
     </ClientOnly>
   )
 }
+
+export default Home
