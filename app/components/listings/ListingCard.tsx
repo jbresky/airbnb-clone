@@ -14,8 +14,6 @@ import {
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { User } from "@prisma/client";
-// import ClientOnly from "../ClientOnly";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -24,8 +22,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-//   currentUser?: SafeUser | null
-  currentUser?: User | null
+  currentUser?: SafeUser | null
 };
 
 const ListingCard: React.FC<ListingCardProps> = ({
